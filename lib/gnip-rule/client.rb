@@ -49,7 +49,7 @@ module GnipRule
 
     protected
     def post(url, data)
-      error nil
+      error = nil
       Curl::Easy.http_post(url, data) do |curl|
         curl.http_auth_types = :basic
         curl.username = @username
