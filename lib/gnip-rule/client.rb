@@ -28,6 +28,7 @@ module GnipRule
         curl.username = @username
         curl.password = @password
         curl.on_body do |obj|
+          logger.info obj
           rules = JSON.parse(obj)['rules'].collect { |o| Rule.new(o['value'], o['tag']) }
           obj.size
         end
