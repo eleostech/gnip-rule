@@ -22,18 +22,17 @@ module GnipRule
     end
 
     def list()
-      rules = nil
+      response_body = ''
       Curl::Easy.http_get(@url) do |curl|
         curl.http_auth_types = :basic
         curl.username = @username
         curl.password = @password
         curl.on_body do |obj|
-          STDERR.puts "The obj: #{obj}"
-          rules = JSON.parse(obj)['rules'].collect { |o| Rule.new(o['value'], o['tag']) }
+          response_body += obj
           obj.size
         end
       end
-      rules
+      JSON.parse(response_body)['rules'].collect { |o| Rule.new(o['value'], o['tag']) }
     end
 
     def jsonify_rules(values, tag=nil)
